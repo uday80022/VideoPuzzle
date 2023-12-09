@@ -32,9 +32,9 @@ const RegisterPage = () => {
       });
 
       if (response.ok) {
-        console.log(response.data);
-        setPasswordError(response.data);
-        console.log("User registered successfully");
+        const data = await response.json();
+        console.log(data.message);
+        setPasswordError(data.message);
       } else {
         setPasswordError("Registration failed");
         console.error("Registration failed");
