@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../Designs/RegisterPage.css";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -45,47 +46,56 @@ const RegisterPage = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
+    <div className="registerPageContainer">
+      <h2 className="registerPageTitle">Register</h2>
+      <form className="registerPageForm" onSubmit={handleRegister}>
         <div>
+          <label>Username</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            className="registerPageInputField"
           />
-          <label>Username</label>
         </div>
         <div>
+          <label>Email</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="registerPageInputField"
           />
-          <label>Email</label>
         </div>
         <div>
+          <label>Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="registerPageInputField"
           />
-          <label>Password</label>
         </div>
         <div>
+          <label>Confirm Password</label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            className="registerPageInputField"
           />
-          <label>Confirm Password</label>
-          {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
         </div>
-        <button type="submit">Register</button>
+        {passwordError && (
+          <p className="registerPageErrorMessage">{passwordError}</p>
+        )}
+
+        <button type="submit" className="registerPageSubmitButton">
+          Register
+        </button>
       </form>
     </div>
   );

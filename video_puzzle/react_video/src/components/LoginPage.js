@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../Designs/LoginPage.css";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -33,29 +34,35 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+    <div className="loginPageContainer">
+      <h2 className="loginPageTitle">Login</h2>
+      <form className="loginPageForm" onSubmit={handleLogin}>
         <div>
+          <label>Username</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className="loginPageInputField"
             required
           />
-          <label>Username</label>
         </div>
         <div>
+          <label>Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="loginPageInputField"
             required
           />
-          <label>Password</label>
         </div>
-        {returnmessage && <p style={{ color: "red" }}>{returnmessage}</p>}
-        <button type="submit">Login</button>
+        {returnmessage && (
+          <p className="loginPageErrorMessage">{returnmessage}</p>
+        )}
+        <button type="submit" className="loginPageSubmitButton">
+          Login
+        </button>
       </form>
     </div>
   );
