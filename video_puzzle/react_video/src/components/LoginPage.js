@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [returnmessage, setreturnmessage] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,13 +21,14 @@ const LoginPage = () => {
       });
 
       if (response.ok) {
-        console.log(response);
-        console.log("User Loggedin  successfully");
+        const data = await response.json();
+        console.log(data.message);
+        setreturnmessage(data.message);
       } else {
-        console.error("Registration failed");
+        console.error("Login failed");
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.error("Error during login:", error);
     }
   };
 
@@ -52,6 +54,7 @@ const LoginPage = () => {
           />
           <label>Password</label>
         </div>
+        {returnmessage && <p style={{ color: "red" }}>{returnmessage}</p>}
         <button type="submit">Login</button>
       </form>
     </div>
