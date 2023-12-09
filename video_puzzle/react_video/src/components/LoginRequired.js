@@ -10,7 +10,7 @@ const LoginRequired = () => {
 
   return (
     <div>
-      <p>Please log in to access this page.</p>
+      <p>Please login and register</p>
       <button onClick={redirectToLogin}>Go to Login</button>
     </div>
   );
