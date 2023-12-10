@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../Designs/RegisterPage.css";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -7,6 +8,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -97,6 +99,15 @@ const RegisterPage = () => {
           Register
         </button>
       </form>
+      <p>
+        Already have an account?{" "}
+        <span
+          className="loginLink"
+          onClick={() => navigate("/login")}
+        >
+          Login
+        </span>
+      </p>
     </div>
   );
 };

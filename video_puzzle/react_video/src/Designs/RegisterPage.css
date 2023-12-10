@@ -51,3 +51,14 @@
     margin-top: 15px;
   }
   
+  .loginLink {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 1em;
+  }
+  
+  .loginLink:hover {
+    text-decoration: none;
+  }
+  
