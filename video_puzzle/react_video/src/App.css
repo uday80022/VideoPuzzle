@@ -35,6 +35,23 @@
   to {
     transform: rotate(360deg);
   }
+
 }
+
+/* navigationbar.css */
+
+.navbar-nav .nav-link.active {
+  border-radius: 6%;
+  background-color: #555; 
+  color: #fff; 
+  transition: all 0.3s ease;
+}
+.navbar-nav .nav-link:hover {
+  border-radius: 6%;
+  background-color: #333; 
+  color: #fff; 
+  transition: all 0.3s ease;
+}
+
 
 

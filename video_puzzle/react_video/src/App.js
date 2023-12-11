@@ -5,11 +5,13 @@ import RegisterPage from "./components/RegisterPage";
 import LoginRequired from "./components/LoginRequired";
 import HomePage from "./components/HomePage";
 import ResetPasswordPage from "./components/ResetPasswordPage ";
+import Navigationbar from "./components/Navigationbar";
 
 export default function App() {
   return (
     <BrowserRouter>
       <div className="App">
+        <Navigationbar/>
         <Routes>
           <Route path="/" element={<RegisterPage />} />
           <Route path="/register" element={<RegisterPage />} />
