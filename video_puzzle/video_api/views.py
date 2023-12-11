@@ -2,7 +2,7 @@ from django.shortcuts import render,HttpResponse
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes,force_str
@@ -50,19 +50,25 @@ def user_login(request):
         data = json.loads(request.body)
         username = data.get('username', None)
         password = data.get('password', None)
+        # username = 'uday'
+        # password = 'uday'
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             return JsonResponse({'message': 'Invalid credentials'})
+        print(user)
         if user.check_password(password):
             if user.is_active:
+                print(request.user.is_authenticated)
                 login(request, user)
+                print(request.user.is_authenticated)
                 return JsonResponse({'type': 'success', 'message': 'Login successfully'})
             else:
                 return JsonResponse({'message': 'Account is not activated. Please check your email for activation instructions.'})
         else:
             return JsonResponse({'message': 'Invalid credentials'})
     else:
+        print(request.method)
         return JsonResponse({'message': 'Invalid request'})
     
 def activate_email(request, to_email, user):
@@ -165,9 +171,24 @@ def password_reset_confirm(request, uidb64, token, new_password):
             user.set_password(decoded_new_password)
             user.save()
             print("e")
-            # return HttpResponseRedirect('http://localhost:3000/login')
             return HttpResponseRedirect('http://localhost:3000/login?message=Password%20reset%20successful.%20You%20can%20now%20login.')
         else:
             return JsonResponse({'status': 'error', 'message': 'New password is required.'})
     else:
         return JsonResponse({'status': 'error', 'message': 'Password reset link is invalid or expired.'})
+    
+@csrf_exempt
+def user_logout(request):
+    print(request.user.is_authenticated)
+    if request.user.is_authenticated:
+        logout(request)
+        return JsonResponse({"message": "success"})
+    return JsonResponse({"message": "User not authenticated"})
+    
+@csrf_exempt
+def check_authentication(request):
+    print("Enter",request.user)
+    if request.user.is_authenticated:
+        return JsonResponse({"isAuthenticated": True})
+    else:
+        return JsonResponse({"isAuthenticated": False})
