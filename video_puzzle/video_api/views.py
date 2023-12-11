@@ -30,6 +30,9 @@ def user_register(request):
         all_usernames = User.objects.values_list('username', flat=True)
         if username in all_usernames:
            return JsonResponse({'message': "Username is already taken"})
+        all_emails = User.objects.values_list('email', flat=True)
+        if email in all_emails:
+            return JsonResponse({'message': "Email is already registered"})
         else:
             user = User(username=username, email=email)
             user.set_password(password)
@@ -47,10 +50,16 @@ def user_login(request):
         data = json.loads(request.body)
         username = data.get('username', None)
         password = data.get('password', None)
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request,user)
-            return JsonResponse({'message': 'Login successfully'})
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return JsonResponse({'message': 'Invalid credentials'})
+        if user.check_password(password):
+            if user.is_active:
+                login(request, user)
+                return JsonResponse({'type': 'success', 'message': 'Login successfully'})
+            else:
+                return JsonResponse({'message': 'Account is not activated. Please check your email for activation instructions.'})
         else:
             return JsonResponse({'message': 'Invalid credentials'})
     else:

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 import LoginRequired from "./components/LoginRequired";
@@ -7,20 +7,31 @@ import HomePage from "./components/HomePage";
 import ResetPasswordPage from "./components/ResetPasswordPage ";
 import Navigationbar from "./components/Navigationbar";
 
-export default function App() {
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const showNavbar = !["/register", "/login", "/"].includes(location.pathname);
+
+  return (
+    <div className="App">
+      {showNavbar && <Navigationbar />}
+      {children}
+    </div>
+  );
+};
+
+function App() {
   return (
     <BrowserRouter>
-      <div className="App">
-        <Navigationbar/>
-        <Routes>
-          <Route path="/" element={<RegisterPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/loginrequired" element={<LoginRequired />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/passwordreset" element={<ResetPasswordPage />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Layout><LoginPage /></Layout>} />
+        <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
+        <Route path="/login" element={<Layout><LoginPage /></Layout>} />
+        <Route path="/loginrequired" element={<Layout><LoginRequired /></Layout>} />
+        <Route path="/home" element={<Layout><HomePage /></Layout>} />
+        <Route path="/passwordreset" element={<Layout><ResetPasswordPage /></Layout>} />
+      </Routes>
     </BrowserRouter>
   );
 }
+
+export default App;
