@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "../Designs/LoginPage.css";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [returnmessage, setreturnmessage] = useState("");
+  const [Returnmessage, setReturnmessage] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,7 +26,7 @@ const LoginPage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data.message);
-        setreturnmessage(data.message);
+        setReturnmessage(data.message);
       } else {
         console.error("Login failed");
       }
@@ -31,32 +34,59 @@ const LoginPage = () => {
       console.error("Error during login:", error);
     }
   };
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const message = urlParams.get("message");
+    if (message) {
+      setReturnmessage(message);
+    }
+  }, []);
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+    <div className="loginPageContainer">
+      <h2 className="loginPageTitle">Login</h2>
+      <form className="loginPageForm" onSubmit={handleLogin}>
         <div>
+          <label>Username</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className="loginPageInputField"
             required
           />
-          <label>Username</label>
         </div>
         <div>
+          <label>Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="loginPageInputField"
             required
           />
-          <label>Password</label>
         </div>
-        {returnmessage && <p style={{ color: "red" }}>{returnmessage}</p>}
-        <button type="submit">Login</button>
+        <p className="centeredText">
+          <span
+            className="forgotPasswordLink"
+            onClick={() => navigate("/passwordreset")}
+          >
+            Forgot your password?
+          </span>
+        </p>
+        {Returnmessage && (
+          <p className="loginPageErrorMessage">{Returnmessage}</p>
+        )}
+        <button type="submit" className="loginPageSubmitButton">
+          Login
+        </button>
       </form>
+      <p>
+        Don't have an account?{" "}
+        <span className="registerLink" onClick={() => navigate("/register")}>
+          Register
+        </span>
+      </p>
     </div>
   );
 };
