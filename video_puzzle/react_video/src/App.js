@@ -9,7 +9,9 @@ import Navigationbar from "./components/Navigationbar";
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const showNavbar = !["/register", "/login", "/"].includes(location.pathname);
+  const showNavbar = !["/register", "/login", "/", "/loginrequired"].includes(
+    location.pathname
+  );
 
   return (
     <div className="App">
@@ -23,12 +25,54 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout><LoginPage /></Layout>} />
-        <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
-        <Route path="/login" element={<Layout><LoginPage /></Layout>} />
-        <Route path="/loginrequired" element={<Layout><LoginRequired /></Layout>} />
-        <Route path="/home" element={<Layout><HomePage /></Layout>} />
-        <Route path="/passwordreset" element={<Layout><ResetPasswordPage /></Layout>} />
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <LoginPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Layout>
+              <RegisterPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <Layout>
+              <LoginPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/loginrequired"
+          element={
+            <Layout>
+              <LoginRequired />
+            </Layout>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <Layout>
+              <HomePage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/passwordreset"
+          element={
+            <Layout>
+              <ResetPasswordPage />
+            </Layout>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

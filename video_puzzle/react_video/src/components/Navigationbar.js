@@ -1,13 +1,28 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import logout from "../icons/logout.svg";
+import Axios from "axios";
 
 function Navigationbar() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await Axios.post(
+        "http://127.0.0.1:8000/api/user_logout/"
+      );
+      if (response.data.message === "success") {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   return (
     <div>
@@ -73,7 +88,7 @@ function Navigationbar() {
           </Navbar.Collapse>
           <Navbar.Collapse className="icons" style={{ justifyContent: "end" }}>
             <Nav style={{ gap: "0.5rem", alignItems: "center" }}>
-              <Nav.Link as={Link} to="/">
+              <Nav.Link as={Link} to="/" onClick={handleLogout}>
                 <img src={logout} alt="logout"></img>
               </Nav.Link>
             </Nav>
