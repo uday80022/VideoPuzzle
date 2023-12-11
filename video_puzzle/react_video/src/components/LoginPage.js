@@ -27,6 +27,9 @@ const LoginPage = () => {
         const data = await response.json();
         console.log(data.message);
         setReturnmessage(data.message);
+        if (data.type === "success") {
+          navigate("/home");
+        }
       } else {
         console.error("Login failed");
       }
