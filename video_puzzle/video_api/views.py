@@ -56,12 +56,8 @@ def user_login(request):
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             return JsonResponse({'message': 'Invalid credentials'})
-        print(user)
         if user.check_password(password):
             if user.is_active:
-                print(request.user.is_authenticated)
-                login(request, user)
-                print(request.user.is_authenticated)
                 return JsonResponse({'type': 'success', 'message': 'Login successfully'})
             else:
                 return JsonResponse({'message': 'Account is not activated. Please check your email for activation instructions.'})
@@ -187,7 +183,6 @@ def user_logout(request):
     
 @csrf_exempt
 def check_authentication(request):
-    print("Enter",request.user)
     if request.user.is_authenticated:
         return JsonResponse({"isAuthenticated": True})
     else:
