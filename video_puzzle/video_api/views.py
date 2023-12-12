@@ -50,8 +50,6 @@ def user_login(request):
         data = json.loads(request.body)
         username = data.get('username', None)
         password = data.get('password', None)
-        # username = 'uday'
-        # password = 'uday'
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
